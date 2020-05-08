@@ -10,6 +10,17 @@ const ContactForm = (props) => {
 
   var [values, setValues] = useState(initailFieldValues);
 
+  useEffect(() => {
+    if (props.currentID == "")
+      setValues({
+        ...initailFieldValues,
+      });
+    else
+      setValues({
+        ...props.currentObject[props.currentID],
+      });
+  }, [props.currentID, props.currentObject]);
+
   //>>>>>>>>>>>>>>>>>>>>> Function - inputEventHandler
   const handleInputChange = (e) => {
     var { name, value } = e.target;

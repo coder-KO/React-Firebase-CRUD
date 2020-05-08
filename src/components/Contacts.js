@@ -4,6 +4,7 @@ import firebaseDb from "../firebase_auth";
 
 const Contacts = () => {
   var [contactObjects, setcontactObjects] = useState({});
+  var [currentID, setcurrentID] = useState("");
 
   useEffect(() => {
     firebaseDb.child("Contacts").on("value", (snapshot) => {
@@ -32,7 +33,7 @@ const Contacts = () => {
 
       <div className="row">
         <div className="col-md-5">
-          <ContactForm addOrEdit={addOrEdit} />
+          <ContactForm {...{ addOrEdit, currentID, contactObjects }} />
         </div>
         <div className="col-md-7">
           <table className="table table-borderless table-stripped">
@@ -52,7 +53,12 @@ const Contacts = () => {
                     <td>{contactObjects[id].mobile}</td>
                     <td>{contactObjects[id].email}</td>
                     <td>
-                      <button className="btn text-primary">
+                      <button
+                        className="btn text-primary"
+                        onClick={() => {
+                          setcurrentID(id);
+                        }}
+                      >
                         <i className="fas fa-pencil-alt"></i>
                       </button>
                       <button className="btn text-danger">
