@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ContactForm = () => {
+const ContactForm = (props) => {
   const initailFieldValues = {
     fullName: "",
     mobile: "",
@@ -12,12 +12,21 @@ const ContactForm = () => {
 
   //>>>>>>>>>>>>>>>>>>>>> Function - inputEventHandler
   const handleInputChange = (e) => {
-    var [name, value] = e.target;
-    setValues([...values, ([name]: value)]);
+    var { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
+  //>>>>>>>>>>>>>>>>>>>>> Function - handleFormSubmit
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    props.addOrEdit(values);
   };
 
   return (
-    <form autoComplete="off">
+    <form autoComplete="off" onSubmit={handleFormSubmit}>
       {/*========== Full Name ==========*/}
       <div className="form-group input-group">
         <div className="input-group-prepend">
@@ -68,6 +77,7 @@ const ContactForm = () => {
         </div>
       </div>
 
+      {/*========== Address ==========*/}
       <div className="form-group">
         <textarea
           className="form-control"
@@ -78,6 +88,7 @@ const ContactForm = () => {
         />
       </div>
 
+      {/*========== Submit Button ==========*/}
       <div className="form-group">
         <input
           type="submit"
